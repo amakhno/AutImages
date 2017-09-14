@@ -37,9 +37,15 @@ namespace ImageAut
 			input = new Bitmap("image.png");
 			Aut a = new Aut(64, input, pictureBox2);
 			pictureBox1.Image = (Image) a.GetBlock(4, 4);
-			pictureBox1.Refresh();
 			a.GetAverL();
 			pictureBox3.Image = (Image) a.GetLightBlocks();
-		}
+            a.GetPHashesFromLight();
+            pictureBox4.Image = a.InsertPHashIntoImage(2);
+            string oldP = Helpers.GetByteStringByHash(a.GetPHashesFromLight()[0, 0]);
+            Bitmap input2 = new Bitmap("image2.png");
+            Aut b = new Aut(64, input2, pictureBox2);
+            var variable = b.ExtractFromImage(2);
+            string newP = Helpers.GetByteStringByHash(variable[0, 0]); 
+        }
 	}
 }
