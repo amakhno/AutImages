@@ -98,7 +98,7 @@ namespace ImageAut
         public static int[] KeyGeneration(int sigma, int blockSize)
         {
             //ключ - каждый второй?
-            int step = (int)Math.Floor((double)((blockSize - 2 * sigma) * (blockSize - 2 * sigma)) / (8 * 8));
+            int step = (int)Math.Floor((double)((blockSize - 2 * sigma) * (blockSize - 2 * sigma)) / (double)(8 * 8));
 
             if (step < 2)
             {
@@ -110,7 +110,43 @@ namespace ImageAut
             key[0] = 0;
             for (int i = 1; i < key.Length; i++)
             {
-                key[i] = key[i - 1] + (int)(step / 1.8);
+                key[i] = key[i - 1] + (int)(step);
+            }
+
+            return key;
+        }
+
+        public static int[] NewKeyGeneration(int sigma, int blockSize)
+        {
+            //ключ - каждый второй?
+            int stepX = (int)Math.Floor((double)((blockSize - 2 * sigma) * (blockSize - 2 * sigma)) / (double)(8 * 8));
+            int subStep = (int)Math.Sqrt(stepX);
+
+            int smallBlockSize = blockSize - 2 * sigma;
+
+            if (stepX < 2)
+            {
+                throw new Exception("Блоки слишком маленького размера");
+            }
+
+            int[] key = new int[64];
+
+            int index = 0;
+            for (int i = 0; i < (int)Math.Floor((double)blockSize - 2 * sigma); i+= subStep)
+            {
+                if (index == 64)
+                {
+                    break;
+                }
+                for (int j = 0; j < (int)Math.Floor((double)blockSize - 2 * sigma); j+= subStep)
+                {
+                    if (index == 64)
+                    {
+                        break;
+                    }
+                    key[index] = j + 4 * sigma * i;
+                    index++;
+                }
             }
 
             return key;
@@ -130,6 +166,10 @@ namespace ImageAut
             if (col < 0)
             {
                 return 0;
+            }
+            if (col > 255)
+            {
+                return 255;
             }
             else
             {

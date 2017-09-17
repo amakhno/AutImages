@@ -21,7 +21,6 @@ namespace ImageAut
 	{
 		int blockSize;
 		Bitmap bmp;
-		Color[,] colors;
 		int[,] AvgL;
 		Bitmap[,] BitmapBlocks;
 		Bitmap[,] LightBlocks;
@@ -127,7 +126,7 @@ namespace ImageAut
             int countBlockX = BitmapBlocks.GetLength(0), 
                 countBlockY = BitmapBlocks.GetLength(1);
 
-            int[] key = Helpers.KeyGeneration(sigma, blockSize);
+            int[] key = Helpers.NewKeyGeneration(sigma, blockSize);
 
             for (int i = 0; i < countBlockX; i++)
             {
@@ -162,7 +161,7 @@ namespace ImageAut
             int countBlockX = BitmapBlocks.GetLength(0),
                 countBlockY = BitmapBlocks.GetLength(1);
 
-            int[] key = Helpers.KeyGeneration(sigma, blockSize);
+            int[] key = Helpers.NewKeyGeneration(sigma, blockSize);
 
             ulong[,] result = new ulong[countBlockX, countBlockY];
 
