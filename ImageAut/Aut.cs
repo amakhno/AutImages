@@ -119,7 +119,7 @@ namespace ImageAut
             return pHashes;
         }
 
-	    public Bitmap InsertPHashIntoImage(int sigma)
+	    public Bitmap InsertPHashIntoImageKutter(int sigma)
         {
             Bitmap newImage = new Bitmap(bmp.Width, bmp.Height);
             newImage = bmp.Clone(new Rectangle(0, 0, newImage.Width, newImage.Height), bmp.PixelFormat);
@@ -156,7 +156,7 @@ namespace ImageAut
             return newImage;
         }
 
-        public ulong[,] ExtractFromImage(int sigma)
+        public ulong[,] ExtractFromImageKutter(int sigma)
         {
             int countBlockX = BitmapBlocks.GetLength(0),
                 countBlockY = BitmapBlocks.GetLength(1);

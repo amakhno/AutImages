@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aut.cs" />
+    <Compile Include="Enum\DecodeMethods.cs" />
+    <Compile Include="Enum\EncodeMethods.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

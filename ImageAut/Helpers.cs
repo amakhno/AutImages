@@ -95,7 +95,7 @@ namespace ImageAut
             return result;
         }
 
-        public static int[] KeyGeneration(int sigma, int blockSize)
+        public static int[] NewKeyGeneration(int sigma, int blockSize)
         {
             //ключ - каждый второй?
             int step = (int)Math.Floor((double)((blockSize - 2 * sigma) * (blockSize - 2 * sigma)) / (double)(8 * 8));
@@ -116,11 +116,11 @@ namespace ImageAut
             return key;
         }
 
-        public static int[] NewKeyGeneration(int sigma, int blockSize)
+        public static int[] BadKeyGeneration(int sigma, int blockSize)
         {
             //ключ - каждый второй?
             int stepX = (int)Math.Floor((double)((blockSize - 2 * sigma) * (blockSize - 2 * sigma)) / (double)(8 * 8));
-            int subStep = (int)Math.Sqrt(stepX);
+            int subStep = 2 * sigma;
 
             int smallBlockSize = blockSize - 2 * sigma;
 
@@ -132,19 +132,19 @@ namespace ImageAut
             int[] key = new int[64];
 
             int index = 0;
-            for (int i = 0; i < (int)Math.Floor((double)blockSize - 2 * sigma); i+= subStep)
+            for (int i = 0; i < blockSize - 2 * sigma; i+= subStep)
             {
                 if (index == 64)
                 {
                     break;
                 }
-                for (int j = 0; j < (int)Math.Floor((double)blockSize - 2 * sigma); j+= subStep)
+                for (int j = 0; j < blockSize - 2 * sigma; j += subStep)
                 {
                     if (index == 64)
                     {
                         break;
                     }
-                    key[index] = j + 4 * sigma * i;
+                    key[index] = j + (blockSize - 2 * sigma) * i;
                     index++;
                 }
             }

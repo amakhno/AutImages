@@ -40,11 +40,11 @@ namespace ImageAut
 			a.GetAverL();
 			pictureBox3.Image = (Image) a.GetLightBlocks();
             a.GetPHashesFromLight();
-            pictureBox4.Image = a.InsertPHashIntoImage(2);
+            pictureBox4.Image = a.InsertPHashIntoImageKutter(6);
             string oldP = Helpers.GetByteStringByHash(a.GetPHashesFromLight()[0, 0]);
             Bitmap input2 = new Bitmap("image2.png");
             Aut b = new Aut(64, input2, pictureBox2);
-            var variable = b.ExtractFromImage(2);
+            var variable = b.ExtractFromImageKutter(6);
             string newP = Helpers.GetByteStringByHash(variable[0, 0]); 
         }
 	}
