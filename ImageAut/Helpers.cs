@@ -156,8 +156,8 @@ namespace ImageAut
         {
             int newBlockSize = blockSize - 2 * sigma;
             int[] a = new int[2];
-            a[0] = v / newBlockSize + sigma;
-            a[1] = v % newBlockSize + sigma;
+            a[1] = v / newBlockSize + sigma;
+            a[0] = v % newBlockSize + sigma;
             return a;
         }
 
@@ -175,6 +175,21 @@ namespace ImageAut
             {
                 return (int)col;
             }
+        }
+
+        internal static int Difference(ulong a, ulong b)
+        {
+            ulong temp = a ^ b;
+            int count = 0;
+            while (temp > 0)
+            {
+                if ((temp & 0x01) == 1)
+                {
+                    count++;
+                }
+                temp = temp >> 1;
+            }
+            return count;
         }
     }
 }

@@ -25,7 +25,6 @@ namespace ImageAut
 		Bitmap[,] BitmapBlocks;
 		Bitmap[,] LightBlocks;
         ulong[,] pHashes;
-        double lambda = 0.1;
 
         public Aut(int blockSize, Bitmap bmp, PictureBox pic)
 		{
@@ -119,14 +118,14 @@ namespace ImageAut
             return pHashes;
         }
 
-	    public Bitmap InsertPHashIntoImageKutter(int sigma)
+	    public Bitmap InsertPHashIntoImageKutter(int sigma, double lambda)
         {
             Bitmap newImage = new Bitmap(bmp.Width, bmp.Height);
             newImage = bmp.Clone(new Rectangle(0, 0, newImage.Width, newImage.Height), bmp.PixelFormat);
             int countBlockX = BitmapBlocks.GetLength(0), 
                 countBlockY = BitmapBlocks.GetLength(1);
 
-            int[] key = Helpers.NewKeyGeneration(sigma, blockSize);
+            int[] key = Helpers.BadKeyGeneration(sigma, blockSize);
 
             for (int i = 0; i < countBlockX; i++)
             {
@@ -161,7 +160,7 @@ namespace ImageAut
             int countBlockX = BitmapBlocks.GetLength(0),
                 countBlockY = BitmapBlocks.GetLength(1);
 
-            int[] key = Helpers.NewKeyGeneration(sigma, blockSize);
+            int[] key = Helpers.BadKeyGeneration(sigma, blockSize);
 
             ulong[,] result = new ulong[countBlockX, countBlockY];
 
