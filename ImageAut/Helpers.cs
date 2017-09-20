@@ -35,6 +35,37 @@ namespace ImageAut
             return destImage;
         }
 
+        public static Bitmap ResizeImageNoCos(Bitmap image, int width, int height)
+        {
+            double n = 8;
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(8, 8);            
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    double prod = 1;
+                    for (int x = 0; x < image.Width; x++)
+                    {
+                        for (int y = 0; y < image.Height; y++)
+                        {
+                            double L = GetLight(image.GetPixel(x, y));
+                            prod += L * Math.Cos( (2 * (double)y) * j * Math.PI / 2 * n ) * Math.Cos( (double)(2 * x) * i * Math.PI / 2 * n);
+                        }
+                    }
+                    prod *= C(i) * C(j) / Math.Sqrt(2 * n);
+                }
+            }
+
+            return destImage;
+        }
+
+        public static double C(double f)
+        {
+            return f == 0 ? 1 / Math.Sqrt(2) : 1;
+        }
+
         public static double GetLight(Color color)
         {
             return 0.3 * color.R + 0.6 * color.G + 0.1 * color.B;
@@ -95,10 +126,13 @@ namespace ImageAut
             return result;
         }
 
-        public static int[] NewKeyGeneration(int sigma, int blockSize)
+        public static int[] BadKeyGeneration(int sigma, int blockSize)
         {
             //ключ - каждый второй?
-            int step = (int)Math.Floor((double)((blockSize - 2 * sigma) * (blockSize - 2 * sigma)) / (double)(8 * 8));
+            int step = (int)(blockSize - 2 * (double)sigma) / (2 * sigma + 1);
+            int subStep = 2 * sigma;
+
+            int smallBlockSize = blockSize - 2 * sigma;
 
             if (step < 2)
             {
@@ -107,16 +141,33 @@ namespace ImageAut
 
             int[] key = new int[64];
 
-            key[0] = 0;
-            for (int i = 1; i < key.Length; i++)
+            int index = 0;
+            for (int i = 0; i < blockSize - 2 * sigma; i += step)
             {
-                key[i] = key[i - 1] + (int)(step);
+                if (index == 64)
+                {
+                    break;
+                }
+                for (int j = 0; j < blockSize - 2 * sigma; j += step)
+                {
+                    if (index == 64)
+                    {
+                        break;
+                    }
+                    key[index] = j + (blockSize - 2 * sigma) * i;
+                    index++;
+                }
+            }
+
+            if (key[key.Length - 1] == 0)
+            {
+                throw new Exception("Слишком маленький блок");
             }
 
             return key;
         }
 
-        public static int[] BadKeyGeneration(int sigma, int blockSize)
+        public static int[] NewKeyGeneration(int sigma, int blockSize)
         {
             //ключ - каждый второй?
             int stepX = (int)Math.Floor((double)((blockSize - 2 * sigma) * (blockSize - 2 * sigma)) / (double)(8 * 8));

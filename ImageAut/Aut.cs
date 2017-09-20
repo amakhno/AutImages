@@ -47,11 +47,11 @@ namespace ImageAut
 						bmp.PixelFormat;
 					Bitmap cloneBitmap = bmp.Clone(cloneRect, format);
 					
-					BitmapBlocks[i, j] = Helpers.ResizeImage((Image)cloneBitmap, 8, 8);
+					BitmapBlocks[i, j] = Helpers.ResizeImage(cloneBitmap, 8, 8);
 				}
 			}
 			
-			pic.Image = bmp.Clone(new Rectangle(blockSize * 4, blockSize * 4, blockSize, blockSize), bmp.PixelFormat);
+			pic.Image = bmp.Clone(new Rectangle(blockSize * 3, blockSize * 3, blockSize, blockSize), bmp.PixelFormat);
 		}
 		
 		public Bitmap GetBlock(int i, int j)
@@ -109,7 +109,7 @@ namespace ImageAut
 					}
 				}
 			}
-			return LightBlocks[4, 4];
+			return LightBlocks[3, 3];
 		}
 		
 		public ulong[,] GetPHashesFromLight()
